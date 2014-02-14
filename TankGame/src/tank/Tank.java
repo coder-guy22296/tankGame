@@ -20,6 +20,7 @@ public class Tank {
 		return tankRotation;
 	}
 	public void fireCannon(){
+		//suggestions
 		//draw line from center of tank along the tank's rotation
 		//if intersects with other tank, minus 25hp
 	}
