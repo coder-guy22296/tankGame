@@ -13,7 +13,10 @@ public class Board extends JPanel {
 	Board(Tank tank1, Tank tank2) {
 		rects = new Rectangle[7];
 		for(int i = 0; i < 7; i++) {
-			rects[i] = new Rectangle(Math.abs((rng.nextInt()) % 300) + 50, Math.abs((rng.nextInt()) % 300) + 50, Math.abs((rng.nextInt()) % 50) + 50, Math.abs((rng.nextInt()) % 50) + 50);
+			rects[i] = new Rectangle(Math.abs((rng.nextInt()) % 300) + 50,
+					Math.abs((rng.nextInt()) % 300) + 50,
+					Math.abs((rng.nextInt()) % 50) + 50,
+					Math.abs((rng.nextInt()) % 50) + 50);
 		}
 	}
 	
