@@ -23,7 +23,7 @@ public class Board extends JPanel {
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		for(int i = 0; i < rects.length; i++) {
-			g2d.draw(rects[i]);
+			g2d.fill(rects[i]);
 		}
 	}
 	
