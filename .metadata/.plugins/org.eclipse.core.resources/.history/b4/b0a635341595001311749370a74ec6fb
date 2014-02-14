@@ -12,8 +12,8 @@ public class Board extends JPanel {
 	Tank[] tanks = new Tank[2];
 	
 	Board() {
-		rects = new Rectangle[7];
-		for(int i = 0; i < 7; i++) {
+		rects = new Rectangle[10];
+		for(int i = 0; i < 10; i++) {
 			rects[i] = new Rectangle(Math.abs((rng.nextInt()) % 300) + 50, Math.abs((rng.nextInt()) % 300) + 50, Math.abs((rng.nextInt()) % 50) + 50, Math.abs((rng.nextInt()) % 50) + 50);
 		}
 	}

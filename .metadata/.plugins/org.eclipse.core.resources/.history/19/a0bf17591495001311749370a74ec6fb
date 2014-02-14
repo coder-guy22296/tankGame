@@ -1,20 +1,18 @@
 package tank;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.util.*;
 
 public class Board extends JPanel {
 
 	Random rng = new Random();
-	Rectangle[] rects;
+	Rectangle[] rects = new Rectangle[20];
 	Tank[] tanks = new Tank[2];
 	
 	Board() {
-		rects = new Rectangle[7];
-		for(int i = 0; i < 7; i++) {
-			rects[i] = new Rectangle(Math.abs((rng.nextInt()) % 300) + 50, Math.abs((rng.nextInt()) % 300) + 50, Math.abs((rng.nextInt()) % 50) + 50, Math.abs((rng.nextInt()) % 50) + 50);
+		for(int i = 0; i < 50; i++) {
+			rects[i] = new Rectangle((rng.nextInt() % 300) + 50, (rng.nextInt() % 300) + 50, (rng.nextInt() % 50) + 50, (rng.nextInt() % 50) + 50);
 		}
 	}
 	

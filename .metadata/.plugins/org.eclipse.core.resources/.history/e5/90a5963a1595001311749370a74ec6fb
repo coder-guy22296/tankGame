@@ -9,11 +9,11 @@ public class Board extends JPanel {
 
 	Random rng = new Random();
 	Rectangle[] rects;
-	Tank[] tanks = new Tank[2];
+	Tank[] tanks = new Tank[7];
 	
 	Board() {
 		rects = new Rectangle[7];
-		for(int i = 0; i < 7; i++) {
+		for(int i = 0; i < 10; i++) {
 			rects[i] = new Rectangle(Math.abs((rng.nextInt()) % 300) + 50, Math.abs((rng.nextInt()) % 300) + 50, Math.abs((rng.nextInt()) % 50) + 50, Math.abs((rng.nextInt()) % 50) + 50);
 		}
 	}
