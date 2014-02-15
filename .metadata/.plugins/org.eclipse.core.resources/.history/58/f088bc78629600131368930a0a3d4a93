@@ -1,0 +1,35 @@
+package tank;
+
+import java.awt.*;
+import java.awt.event.*;
+
+
+public class UserTank extends Tank {
+	int xSpeed = 0, ySpeed = 0;
+	UserTank(int x, int y, Board b){
+		super(x, y, b);
+	}
+	public void update() {
+		System.out.println("Updating!");
+		xLocation += xSpeed;
+		yLocation += ySpeed;
+	}
+	public void handleKeyPress(KeyEvent arg0) {
+		int key = arg0.getKeyCode();
+		switch(key) {
+		case KeyEvent.VK_A:
+			ySpeed -= 1;
+			break;
+		case KeyEvent.VK_D:
+			ySpeed += 1;
+			break;
+		case KeyEvent.VK_W:
+			xSpeed -= 1;
+			break;
+		case KeyEvent.VK_S:
+			xSpeed += 1;
+			break;
+		}
+	}
+	
+}
