@@ -1,0 +1,39 @@
+package tank;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.*;
+import java.util.ArrayList;
+
+public class Board extends JPanel {
+	public ArrayList<Tank> tanks;
+	Random rng = new Random();
+	Rectangle[] rects;
+	Tank tank1, tank2;
+	Board(Tank tank1, Tank tank2) {
+		rects = new Rectangle[7];
+		for(int i = 0; i < 7; i++) {
+			rects[i] = new Rectangle(Math.abs((rng.nextInt()) % 300) + 50,
+					Math.abs((rng.nextInt()) % 300) + 50,
+					Math.abs((rng.nextInt()) % 50) + 50,
+					Math.abs((rng.nextInt()) % 50) + 50);
+		}
+		this.tank1 = tank1;
+		this.tank2 = tank2;
+	}
+	
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		for(int i = 0; i < rects.length; i++) {
+			g2d.fill(rects[i]);
+		}
+		int x, y;
+		x = tank1.getTankX();
+		y = tank1.getTankY();
+		g2d.drawOval(x, y, 20, 20);
+		x = tank2.getTankX();
+		y = tank2.getTankY();
+		g2d.drawOval(x, y, 20, 20);
+	}
+	
+}

@@ -1,0 +1,29 @@
+package tank;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class Main extends JFrame {
+	
+	Main() {
+		UserTank userTank = new UserTank();
+		Board b = new Board(userTank, new Tank());
+		this.addKeyListener(userTank);
+		this.addMouseListener(userTank);
+		add(b);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setSize(500, 500);
+		setTitle("Tank Game");
+		setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				Main m = new Main();
+			}
+		});
+	}
+	
+}
