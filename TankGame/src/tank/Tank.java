@@ -3,16 +3,19 @@ package tank;
 import java.awt.Rectangle;
 
 public class Tank {
-	private int tankRotation = 0;  // in degrees
-	private int xLocation = 0;
-	private int yLocation = 0;
-	private int health = 100; // hp    
-	private Rectangle rect = new Rectangle(xLocation, yLocation, 20, 20);
-	private Board b;
-	Tank(int x, int y, Board b) {
+	int tankRotation = 0;  // in degrees
+	int xLocation = 0; // Made these so they could be inherited
+	int yLocation = 0;
+	int health = 100; // hp    
+	Rectangle rect = new Rectangle(xLocation, yLocation, 20, 20);
+	Board board;
+	Tank(int x, int y, Board board) {
 		xLocation = x;
 		yLocation = y;
-		this.b = b;
+		this.board = board;
+	}
+	public void update() {
+		
 	}
 	public void setTankLocation(int x, int y){
 		xLocation = x;
@@ -20,15 +23,19 @@ public class Tank {
 		rect = new Rectangle(xLocation, yLocation, 20, 20);
 	}
 	public void moveTank(int offX, int offY) {
-		xLocation += offX;
-		yLocation += offY;
-		rect = new Rectangle(xLocation, yLocation, 20, 20);
-		for(int i = 0; i < b.rects.length; i++) {
-			if(rect.intersects(b.rects[i])) {
-				xLocation -= offX;
-				yLocation -= offY;
-				rect = new Rectangle(xLocation, yLocation, 20, 20);
+		Rectangle temp = new Rectangle(xLocation + offX, yLocation + offY, 20, 20);
+		boolean intersects = false;
+		boolean intersectX = ! ((xLocation + offX) >= 0 && (xLocation + offX) <= 500);
+		boolean intersectY = ! ((yLocation + offY) >= 0 && (yLocation + offY) <= 500);
+		for(int i = 0; i < board.rects.length; i++) {
+			if(temp.intersects(board.rects[i])) {
+				intersects = true;
 			}
+		}
+		if(!intersects && !intersectY && !intersectX) {
+			xLocation += offX;
+			yLocation += offY;
+			rect = temp;
 		}
 	}
 	public void setTankRotation(int degrees){
@@ -50,8 +57,8 @@ public class Tank {
 		//draw line from center of tank along the tank's rotation
 		//if intersects with other tank, minus 25hp
 	}
-	public void takeDammage(int dammage){
-		health -= dammage;
+	public void takeDamage(int damage){
+		health -= damage;
 	}
 	public void regenHealth(){
 		health = 100;

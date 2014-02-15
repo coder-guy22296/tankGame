@@ -1,9 +1,0 @@
-package tank;
-
-import java.awt.*;
-import java.awt.event.*;
-
-
-public class UserTank extends Tank implements KeyAdapter, MouseAdapter {
-	
-}

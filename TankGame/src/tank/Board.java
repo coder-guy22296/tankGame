@@ -9,7 +9,6 @@ public class Board extends JPanel {
 	public ArrayList<Tank> tanks = new ArrayList<Tank>();
 	Random rng = new Random();
 	Rectangle[] rects;
-	Tank tank1, tank2;
 	Board() {
 		rects = new Rectangle[7];
 		for(int i = 0; i < 7; i++) {
@@ -17,6 +16,11 @@ public class Board extends JPanel {
 					Math.abs((rng.nextInt()) % 300) + 50,
 					Math.abs((rng.nextInt()) % 50) + 50,
 					Math.abs((rng.nextInt()) % 50) + 50);
+		}
+	}
+	public void update() {
+		for(Tank tank : tanks) {
+			tank.update();
 		}
 	}
 	public void addTank(Tank t) {
