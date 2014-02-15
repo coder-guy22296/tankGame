@@ -63,7 +63,7 @@ public class UserTank extends Tank {
 			ySpeed = 0;
 		}
 	}
-	public void handleKeyRelease(KeyEvent arg0) {//	STOPS THE TANK WHEN THE KEY NOT PRESSED
+	public void handleKeyRelease(KeyEvent arg0) {
 		int key = arg0.getKeyCode();
 		if(key == bindings[0]){
 			if(xSpeed > -2) {
