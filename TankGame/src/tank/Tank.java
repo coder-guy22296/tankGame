@@ -1,5 +1,6 @@
 package tank;
 
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class Tank {
@@ -39,7 +40,9 @@ public class Tank {
 		}
 	}
 	public void setTankRotation(int degrees){
-		tankRotation = degrees;
+		if(degrees >= 0 && degrees < 360) {
+			tankRotation = degrees;
+		}
 	}
 	public int getTankX() {
 		return xLocation;
@@ -63,5 +66,42 @@ public class Tank {
 	}
 	public void regenHealth(){
 		health = 100;
+	}
+	public void render(Graphics2D g2d) {
+		g2d.drawOval(xLocation + 3, yLocation + 3, 14, 14);
+		/* my attempt at trig rendering. good luck
+		int centerX = xLocation + 10, centerY = yLocation + 10;
+		int offset = 0, base = getTankRotation();
+		int refX = 0, refY = 0, adj, opp, hyp = 10;
+		while(true) {
+			if(base - 90 >= 0) {
+				base -= 90;
+				offset += 1;
+			} else {
+				break;
+			}
+		}		
+		adj = (int) Math.round(Math.cos(Math.toRadians(base)) * hyp);
+		opp = (int) Math.round(Math.sin(Math.toRadians(base)) * hyp);
+		switch(offset) {
+		case 0:
+			refX = centerX + opp;
+			refY = centerY - adj;
+			break;
+		case 1:
+			refX = centerX + opp;
+			refY = centerY + adj;
+			break;
+		case 2:
+			refX = centerX - opp;
+			refY = centerY + adj;
+			break;
+		case 3:
+			refX = centerX - opp;
+			refY = centerY - adj;
+			break;
+		}
+		g2d.drawLine(centerX, centerY, refX, refY);
+		*/
 	}
 }

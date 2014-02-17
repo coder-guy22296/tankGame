@@ -10,12 +10,12 @@ public class Board extends JPanel {
 	Random rng = new Random();
 	Rectangle[] rects;
 	Board() {
-		rects = new Rectangle[7];
-		for(int i = 0; i < 7; i++) {
+		rects = new Rectangle[15];
+		for(int i = 0; i < 15; i++) {
 			rects[i] = new Rectangle(Math.abs((rng.nextInt()) % 300) + 50,
 					Math.abs((rng.nextInt()) % 300) + 50,
-					Math.abs((rng.nextInt()) % 50) + 50,
-					Math.abs((rng.nextInt()) % 50) + 50);
+					Math.abs((rng.nextInt()) % 25) + 25,
+					Math.abs((rng.nextInt()) % 25) + 25);
 		}
 	}
 	public void update() {
@@ -32,10 +32,7 @@ public class Board extends JPanel {
 			g2d.fill(rects[i]);
 		}
 		for(Tank tank : this.tanks){ 
-			int x, y;
-			x = tank.getTankX();
-			y = tank.getTankY();
-			g2d.drawOval(x, y, 20, 20);
+			tank.render(g2d);
 		}
 	}
 	
