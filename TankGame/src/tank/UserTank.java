@@ -43,19 +43,19 @@ public class UserTank extends Tank {
 	public void handleKeyPress(KeyEvent arg0) {
 		int key = arg0.getKeyCode();
 		if(key == bindings[0]){
-			if(xSpeed > -3) {
+			if(xSpeed > -1) {
 				xSpeed -= 1;
 			}
 		} else if(key == bindings[1]) {
-			if(xSpeed < 3) {
+			if(xSpeed < 1) {
 				xSpeed += 1;
 			}
 		} else if(key == bindings[2]) {
-			if(ySpeed > -3) {
+			if(ySpeed > -1) {
 				ySpeed -= 1;
 			}
 		} else if(key == bindings[3]) {
-			if(ySpeed < 3) {
+			if(ySpeed < 1) {
 				ySpeed += 1;
 			}
 		} else if(key == KeyEvent.VK_SPACE) {

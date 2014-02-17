@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class Board extends JPanel {
 	public ArrayList<Tank> tanks = new ArrayList<Tank>();
 	Random rng = new Random();
-	double FPS = 0.0;
 	Rectangle[] rects;
 	Board() {
 		int w;
@@ -20,9 +19,6 @@ public class Board extends JPanel {
 					w,
 					w);
 		}
-	}
-	public void setFPS(double fps) {
-		FPS = fps;
 	}
 	public void update() {
 		for(Tank tank : tanks) {
@@ -40,7 +36,6 @@ public class Board extends JPanel {
 		for(Tank tank : this.tanks){ 
 			tank.render(g2d);
 		}
-		g2d.drawString(Double.toString(FPS), 455, 20);
 	}
 	
 }

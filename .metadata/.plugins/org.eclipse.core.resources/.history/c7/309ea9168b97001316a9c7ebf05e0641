@@ -5,12 +5,13 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-public class Main extends JFrame implements KeyListener, MouseListener, Runnable {
+public class Main extends JFrame implements KeyListener, MouseListener, MouseMotionListener, Runnable {
 	Board board = new Board();
 	Main() {
 		board.addTank(new UserTank(0, 0, board));
 		this.addKeyListener(this);
 		this.addMouseListener(this);
+		this.addMouseMotionListener(this);
 		add(board);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -26,7 +27,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, Runnable
 		board.repaint();
 	}
 	public void run() {
-		int fps = 30;
+		int fps = 60;
 		long waitTime = (long) Math.floor(((float) 1000 / (float) fps));
 		long start, wait;
 		while(true) {
@@ -35,8 +36,11 @@ public class Main extends JFrame implements KeyListener, MouseListener, Runnable
 			repaint();
 			wait = (waitTime - (System.currentTimeMillis() - start));
 			try{
-				System.out.println(wait);
-				Thread.sleep(wait);
+				if(fps != -1) {
+					Thread.sleep(Math.abs(wait)); // Math.abs makes sure that the timeout isn't negative
+				} else {
+					System.out.println("Actual FPS: " + (1000.0 / (double) (System.currentTimeMillis() - start)));
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -54,7 +58,11 @@ public class Main extends JFrame implements KeyListener, MouseListener, Runnable
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		for(Tank tank : board.tanks) {
+			if(tank instanceof UserTank) {
+				((UserTank) tank).handleMouseClick(arg0);
+			}
+		}
 	}
 
 	@Override
@@ -72,7 +80,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, Runnable
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -94,6 +102,11 @@ public class Main extends JFrame implements KeyListener, MouseListener, Runnable
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
+		for(Tank tank : board.tanks) {
+			if(tank instanceof UserTank) {
+				((UserTank) tank).handleKeyRelease(arg0);
+			}
+		}
 		
 	}
 
@@ -101,6 +114,20 @@ public class Main extends JFrame implements KeyListener, MouseListener, Runnable
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		for(Tank tank : board.tanks) {
+			if(tank instanceof UserTank) {
+				((UserTank) tank).handleMouseMove(arg0);
+			}
+		}
 	}
 	
 }

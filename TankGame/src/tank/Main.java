@@ -42,8 +42,9 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 					System.out.println("Actual FPS: " + (1000.0 / (double) (System.currentTimeMillis() - start)));
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				
 			}
+			board.setFPS((1000.0 / (double) (System.currentTimeMillis() - start)));
 		}
 	}
 	public static void main(String[] args) {
