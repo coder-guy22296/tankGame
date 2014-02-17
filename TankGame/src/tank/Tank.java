@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class Tank {
-	int tankRotation = 0;  // in degrees
+	double tankRotation = 0.0;  // in degrees -- long story short, trig calculations are easier when this is a double
 	int xLocation = 0; // Made these so they could be inherited
 	int yLocation = 0;
 	int health = 100; // hp    
@@ -39,9 +39,9 @@ public class Tank {
 			rect = temp;
 		}
 	}
-	public void setTankRotation(int degrees){
-		if(degrees >= 0 && degrees < 360) {
-			tankRotation = degrees;
+	public void setTankRotation(double d){
+		if(d >= 0.0 && d < 360.0) {
+			tankRotation = d;
 		}
 	}
 	public int getTankX() {
@@ -50,10 +50,10 @@ public class Tank {
 	public int getTankY() {
 		return yLocation;
 	}
-	public void rotateTank(int degrees){
+	public void rotateTank(double  degrees){
 		tankRotation += degrees;
 	}
-	public int getTankRotation(){
+	public double getTankRotation(){
 		return tankRotation;
 	}
 	public void fireCannon(){
@@ -67,41 +67,50 @@ public class Tank {
 	public void regenHealth(){
 		health = 100;
 	}
-	public void render(Graphics2D g2d) {
-		g2d.drawOval(xLocation + 3, yLocation + 3, 14, 14);
-		/* my attempt at trig rendering. good luck
-		int centerX = xLocation + 10, centerY = yLocation + 10;
-		int offset = 0, base = getTankRotation();
-		int refX = 0, refY = 0, adj, opp, hyp = 10;
+	private double[] calculateOffset(double angle) {
+		double offset = 0.0, base = angle;
 		while(true) {
-			if(base - 90 >= 0) {
-				base -= 90;
-				offset += 1;
+			if(base - 90.0 >= 0.0) {
+				base -= 90.0;
+				offset += 1.0;
 			} else {
 				break;
 			}
-		}		
-		adj = (int) Math.round(Math.cos(Math.toRadians(base)) * hyp);
-		opp = (int) Math.round(Math.sin(Math.toRadians(base)) * hyp);
+		}
+		double[] ret = {base, offset};
+		return ret;
+	}
+	public void render(Graphics2D g2d) {
+		g2d.drawOval(xLocation + 3, yLocation + 3, 14, 14);
+		double centerX = (double) xLocation + 10.0, centerY = (double) yLocation + 10.0;	
+		double[] ret = calculateOffset(getTankRotation());
+		double base = ret[0];
+		int offset = (int) ret[1];
+		double adj, opp, refX = 0.0, refY = 0.0;
+		adj = Math.cos(Math.toRadians(base)) * 10;
+		opp = Math.sin(Math.toRadians(base)) * 10;
 		switch(offset) {
 		case 0:
+			// Upper right
 			refX = centerX + opp;
 			refY = centerY - adj;
 			break;
 		case 1:
-			refX = centerX + opp;
-			refY = centerY + adj;
+			// Lower right
+			refX = centerX + adj;
+			refY = centerY + opp;
 			break;
 		case 2:
+			// Lower left
 			refX = centerX - opp;
 			refY = centerY + adj;
 			break;
 		case 3:
-			refX = centerX - opp;
-			refY = centerY - adj;
+			// Upper left
+			refX = centerX - adj;
+			refY = centerY - opp;
 			break;
 		}
-		g2d.drawLine(centerX, centerY, refX, refY);
-		*/
+		g2d.drawLine((int) Math.round(centerX), (int) Math.round(centerY), (int) Math.round(refX), (int) Math.round(refY));
 	}
 }

@@ -10,12 +10,14 @@ public class Board extends JPanel {
 	Random rng = new Random();
 	Rectangle[] rects;
 	Board() {
-		rects = new Rectangle[15];
-		for(int i = 0; i < 15; i++) {
+		int w;
+		rects = new Rectangle[18];
+		for(int i = 0; i < rects.length; i++) {
+			w = Math.abs((rng.nextInt()) % 25) + 25;
 			rects[i] = new Rectangle(Math.abs((rng.nextInt()) % 300) + 50,
 					Math.abs((rng.nextInt()) % 300) + 50,
-					Math.abs((rng.nextInt()) % 25) + 25,
-					Math.abs((rng.nextInt()) % 25) + 25);
+					w,
+					w);
 		}
 	}
 	public void update() {

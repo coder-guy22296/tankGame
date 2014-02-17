@@ -72,31 +72,34 @@ public class UserTank extends Tank {
 		}
 	}
 	public void handleMouseMove(MouseEvent e) {
-	/* My attempt at some game trig... I'm working on some working code but see if you can 
-	 * try and make some of your own. Maybe you cant get it to work.
-		int centerX = xLocation + 10, centerY = yLocation + 10;
-		int distX = centerX - e.getX();
-		int distY = centerY - e.getY();
-		int angle, offset, base;
-		if(distX >= 0) {
-			if(distY >= 0) {
+		double centerX = (double) xLocation + 10, centerY = (double) yLocation + 10;
+		double distX = centerX - (double) e.getX();
+		double distY = centerY - (double) e.getY();
+		int offset;
+		boolean invert = false;
+		if(distX >= 0.0) {
+			if(distY >= 0.0) {
+				offset = 3;
+				invert = true;
+			} else {
+				offset = 2;
+			}
+		} else {
+			if(distY >= 0.0) {
 				offset = 0;
 			} else {
 				offset = 1;
-			}
-		} else { 
-			if(distY >= 0) {
-				offset = 2;
-			} else {
-				offset = 3;
+				invert = true;
 			}
 		}
 		distX = Math.abs(distX);
 		distY = Math.abs(distY);
-		base = (int) Math.round(Math.toDegrees((Math.atan(Math.toRadians(((double) distY / (double) distX))))));
-		angle = offset * 90 + base;
+		double base = Math.toDegrees(Math.atan(distX / distY));
+		if(invert) {
+			base = 90.0 - base;
+		}
+		double angle = offset * 90.0 + base;
 		setTankRotation(angle);
-	*/
 	}
 	public void handleMouseClick(MouseEvent e) {
 		
