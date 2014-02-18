@@ -4,10 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class Tank {
-	double tankRotation = 0.0;  // in degrees -- long story short, trig calculations are easier when this is a double
-	int xLocation = 0; // Made these so they could be inherited
-	int yLocation = 0;
-	int health = 100; // hp    
+	protected double tankRotation = 0.0;  // in degrees -- long story short, trig calculations are easier when this is a double
+	protected int xLocation = 0; // Made these so they could be inherited
+	protected int yLocation = 0;
+	protected int health = 100; // hp  
 	Rectangle rect = new Rectangle(xLocation, yLocation, 20, 20);
 	Board board;
 	Tank(int x, int y, Board board) {
