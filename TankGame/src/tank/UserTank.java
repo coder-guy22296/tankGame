@@ -8,7 +8,7 @@ public class UserTank extends Tank {
 	int[] bindings = {KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W, KeyEvent.VK_S};
 	double xSpeed = 0, ySpeed = 0, MaxXSpeed = 2, MaxYSpeed =2;
 	double acceleration = .1;
-	double friction = 1;
+	double friction = .01;
 	boolean aUp = false;
 	boolean aDown = false;
 	boolean aLeft = false;
@@ -54,6 +54,7 @@ public class UserTank extends Tank {
 	public void moveTank(double fXSpeed, double fYSpeed) {
 		Rectangle temp = new Rectangle((int)xLocation + (int)fXSpeed, (int)yLocation + (int)fYSpeed, 20, 20);
 		boolean intersectRect = false;
+		boolean alreadyImpacted = false;
 		boolean intersectX = ! ((xLocation + fXSpeed) >= 0 && (xLocation + fXSpeed) <= 500);
 		boolean intersectY = ! ((yLocation + fYSpeed) >= 0 && (yLocation + fYSpeed) <= 500);
 		for(int i = 0; i < board.rects.length; i++) {
@@ -66,8 +67,7 @@ public class UserTank extends Tank {
 			yLocation += fYSpeed;
 			rect = temp;
 		} else {
-			xSpeed = -xSpeed;
-			ySpeed = -ySpeed;
+			setTankLocation((int)getTankX()- (int)xSpeed, (int)getTankY()- (int)ySpeed);
 		}
 		if(intersectX) {
 			xSpeed = -xSpeed;
@@ -91,7 +91,7 @@ public class UserTank extends Tank {
 		} 
 		
 	}
-	public void handleKeyRelease(KeyEvent arg0) {//	STOPS THE TANK WHEN THE KEY NOT PRESSED
+	public void handleKeyRelease(KeyEvent arg0) {
 		int key = arg0.getKeyCode();
 		if(key == bindings[0]){
 			aLeft = false;
