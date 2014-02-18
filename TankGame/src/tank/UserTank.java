@@ -5,15 +5,15 @@ import java.awt.event.*;
 
 
 public class UserTank extends Tank {
-	int[] bindings = {KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W, KeyEvent.VK_S};
+	int[] bindings = {KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_SPACE};
 	double xSpeed = 0, ySpeed = 0, MaxXSpeed = 2, MaxYSpeed =2;
 	double acceleration = .1;
-	double friction = .01;
+	double friction = .98;
 	boolean aUp = false;
 	boolean aDown = false;
 	boolean aLeft = false;
 	boolean aRight = false;
-	
+	boolean aSpace = false;
 	UserTank(int x, int y, Board board){
 		super(x, y, board);
 	}
@@ -48,7 +48,12 @@ public class UserTank extends Tank {
 			ySpeed *= friction;
 			xSpeed *= friction;
 		}
-		
+		if(aSpace){
+			ApplyBrakes();
+		}
+		else if(!aSpace){
+			disengageBrakes();
+		}
 		moveTank(xSpeed, ySpeed);
 	}
 	public void moveTank(double fXSpeed, double fYSpeed) {
@@ -67,13 +72,19 @@ public class UserTank extends Tank {
 			yLocation += fYSpeed;
 			rect = temp;
 		} else {
-			setTankLocation((int)getTankX()- (int)xSpeed, (int)getTankY()- (int)ySpeed);
+			setTankLocation((int)getTankX() - (int)xSpeed, (int)getTankY() - (int)ySpeed);
 		}
 		if(intersectX) {
 			xSpeed = -xSpeed;
 		} else if(intersectY) {
 			ySpeed = -ySpeed;
 		}
+	}
+	public void ApplyBrakes(){
+		friction = .80;
+	}
+	public void disengageBrakes(){
+		friction = .98;
 	}
 	public void setBindings(int[] b) {
 		bindings = b;
@@ -88,6 +99,8 @@ public class UserTank extends Tank {
 			aUp = true;
 		} else if(key == bindings[3]) {
 			aDown = true;
+		} else if(key == bindings[4]) {
+			aSpace = true;
 		} 
 		
 	}
@@ -101,6 +114,8 @@ public class UserTank extends Tank {
 			aUp = false;
 		} else if(key == bindings[3]) {
 			aDown = false;
+		} else if(key == bindings[4]) {
+			aSpace = false;
 		} 
 	}
 	public void handleMouseMove(MouseEvent e) {
