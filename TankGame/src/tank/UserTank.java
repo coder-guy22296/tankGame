@@ -9,6 +9,8 @@ public class UserTank extends Tank {
 	double xSpeed = 0, ySpeed = 0, MaxXSpeed = 2, MaxYSpeed =2;
 	double acceleration = .1;
 	double friction = .98;
+	static int pointerX = 0;
+	static int pointerY = 0;
 	boolean aUp = false;
 	boolean aDown = false;
 	boolean aLeft = false;
@@ -59,7 +61,6 @@ public class UserTank extends Tank {
 	public void moveTank(double fXSpeed, double fYSpeed) {
 		Rectangle temp = new Rectangle((int)xLocation + (int)fXSpeed, (int)yLocation + (int)fYSpeed, 20, 20);
 		boolean intersectRect = false;
-		boolean alreadyImpacted = false;
 		boolean intersectX = ! ((xLocation + fXSpeed) >= 0 && (xLocation + fXSpeed) <= 500);
 		boolean intersectY = ! ((yLocation + fYSpeed) >= 0 && (yLocation + fYSpeed) <= 500);
 		for(int i = 0; i < board.rects.length; i++) {
@@ -119,9 +120,11 @@ public class UserTank extends Tank {
 		} 
 	}
 	public void handleMouseMove(MouseEvent e) {
+		pointerX = e.getX() - 3;
+		pointerY = e.getY() - 25;
 		double centerX = (double) xLocation + 10, centerY = (double) yLocation + 10;
-		double distX = centerX - (double) e.getX();
-		double distY = centerY - (double) e.getY();
+		double distX = centerX - (double) pointerX;
+		double distY = centerY - (double) pointerY;
 		int offset;
 		boolean invert = false;
 		if(distX >= 0.0) {
@@ -149,7 +152,13 @@ public class UserTank extends Tank {
 		setTankRotation(angle);
 	}
 	public void handleMouseClick(MouseEvent e) {
-		
+		cannonFiring = true;
+	}
+	public static int getMouseX(){
+		return pointerX;
+	}
+	public static int getMouseY(){
+		return pointerY;
 	}
 	
 }
