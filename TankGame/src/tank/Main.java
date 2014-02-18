@@ -15,6 +15,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		add(board);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		setSize(500, 500);
 		setTitle("Tank Game");
 		setVisible(true);

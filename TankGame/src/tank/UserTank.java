@@ -6,26 +6,64 @@ import java.awt.event.*;
 
 public class UserTank extends Tank {
 	int[] bindings = {KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W, KeyEvent.VK_S};
-	int xSpeed = 0, ySpeed = 0;
+	double xSpeed = 0, ySpeed = 0, MaxXSpeed = 2, MaxYSpeed =2;
+	double acceleration = .1;
+	double friction = 1;
+	boolean aUp = false;
+	boolean aDown = false;
+	boolean aLeft = false;
+	boolean aRight = false;
+	
 	UserTank(int x, int y, Board board){
 		super(x, y, board);
 	}
 	public void update() {
+		
+		
+		if(aLeft){
+			xSpeed -=acceleration;
+			if(xSpeed < -MaxXSpeed) {
+				xSpeed = -MaxXSpeed;
+			}
+		} 
+		if(aRight) {
+			xSpeed +=acceleration;
+			if(xSpeed > MaxXSpeed) {
+				xSpeed = MaxXSpeed;
+			}
+		} 
+		if(aUp) {
+			ySpeed -=acceleration;
+			if(ySpeed < -MaxYSpeed) {
+				ySpeed = -MaxYSpeed;
+			}
+		} 
+		if(aDown) {
+			ySpeed +=acceleration;
+			if(ySpeed > MaxYSpeed) {
+				ySpeed = MaxYSpeed;
+			}
+		} 
+		if(!(aLeft || aRight || aDown || aUp)){
+			ySpeed *= friction;
+			xSpeed *= friction;
+		}
+		
 		moveTank(xSpeed, ySpeed);
 	}
-	public void moveTank(int offX, int offY) {
-		Rectangle temp = new Rectangle(xLocation + offX, yLocation + offY, 20, 20);
+	public void moveTank(double fXSpeed, double fYSpeed) {
+		Rectangle temp = new Rectangle((int)xLocation + (int)fXSpeed, (int)yLocation + (int)fYSpeed, 20, 20);
 		boolean intersectRect = false;
-		boolean intersectX = ! ((xLocation + offX) >= 0 && (xLocation + offX) <= 500);
-		boolean intersectY = ! ((yLocation + offY) >= 0 && (yLocation + offY) <= 500);
+		boolean intersectX = ! ((xLocation + fXSpeed) >= 0 && (xLocation + fXSpeed) <= 500);
+		boolean intersectY = ! ((yLocation + fYSpeed) >= 0 && (yLocation + fYSpeed) <= 500);
 		for(int i = 0; i < board.rects.length; i++) {
 			if(temp.intersects(board.rects[i])) {
 				intersectRect = true;
 			}
 		}
 		if(!intersectRect) {
-			xLocation += offX;
-			yLocation += offY;
+			xLocation += fXSpeed;
+			yLocation += fYSpeed;
 			rect = temp;
 		} else {
 			xSpeed = -xSpeed;
@@ -43,33 +81,27 @@ public class UserTank extends Tank {
 	public void handleKeyPress(KeyEvent arg0) {
 		int key = arg0.getKeyCode();
 		if(key == bindings[0]){
-			if(xSpeed > -1) {
-				xSpeed -= 1;
-			}
+			aLeft = true;
 		} else if(key == bindings[1]) {
-			if(xSpeed < 1) {
-				xSpeed += 1;
-			}
+			aRight = true;
 		} else if(key == bindings[2]) {
-			if(ySpeed > -1) {
-				ySpeed -= 1;
-			}
+			aUp = true;
 		} else if(key == bindings[3]) {
-			if(ySpeed < 1) {
-				ySpeed += 1;
-			}
-		} else if(key == KeyEvent.VK_SPACE) {
-			xSpeed = 0;
-			ySpeed = 0;
-		}
+			aDown = true;
+		} 
+		
 	}
 	public void handleKeyRelease(KeyEvent arg0) {//	STOPS THE TANK WHEN THE KEY NOT PRESSED
 		int key = arg0.getKeyCode();
-		if(key == bindings[0] || key == bindings[1]){
-			xSpeed = 0;
-		} else if(key == bindings[2] || key == bindings[3]) {
-			ySpeed = 0;
-		}
+		if(key == bindings[0]){
+			aLeft = false;
+		} else if(key == bindings[1]) {
+			aRight = false;
+		} else if(key == bindings[2]) {
+			aUp = false;
+		} else if(key == bindings[3]) {
+			aDown = false;
+		} 
 	}
 	public void handleMouseMove(MouseEvent e) {
 		double centerX = (double) xLocation + 10, centerY = (double) yLocation + 10;

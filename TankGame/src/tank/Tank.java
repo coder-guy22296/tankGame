@@ -5,10 +5,10 @@ import java.awt.Rectangle;
 
 public class Tank {
 	protected double tankRotation = 0.0;  // in degrees -- long story short, trig calculations are easier when this is a double
-	protected int xLocation = 0; // Made these so they could be inherited
-	protected int yLocation = 0;
+	protected double xLocation = 0; // Made these so they could be inherited
+	protected double yLocation = 0;
 	protected int health = 100; // hp  
-	Rectangle rect = new Rectangle(xLocation, yLocation, 20, 20);
+	Rectangle rect = new Rectangle((int)xLocation, (int)yLocation, 20, 20);
 	Board board;
 	Tank(int x, int y, Board board) {
 		xLocation = x;
@@ -21,10 +21,10 @@ public class Tank {
 	public void setTankLocation(int x, int y){
 		xLocation = x;
 		yLocation = y;
-		rect = new Rectangle(xLocation, yLocation, 20, 20);
+		rect = new Rectangle((int)xLocation, (int)yLocation, 20, 20);
 	}
 	public void moveTank(int offX, int offY) {
-		Rectangle temp = new Rectangle(xLocation + offX, yLocation + offY, 20, 20);
+		Rectangle temp = new Rectangle((int)xLocation + offX, (int)yLocation + offY, 20, 20);
 		boolean intersects = false;
 		boolean intersectX = ! ((xLocation + offX) >= 0 && (xLocation + offX) <= 500);
 		boolean intersectY = ! ((yLocation + offY) >= 0 && (yLocation + offY) <= 500);
@@ -44,10 +44,10 @@ public class Tank {
 			tankRotation = d;
 		}
 	}
-	public int getTankX() {
+	public double getTankX() {
 		return xLocation;
 	}
-	public int getTankY() {
+	public double getTankY() {
 		return yLocation;
 	}
 	public void rotateTank(double  degrees){
@@ -67,7 +67,7 @@ public class Tank {
 	public void regenHealth(){
 		health = 100;
 	}
-	private double[] calculateOffset(double angle) {
+	private double[] calculateRotationQuadrant(double angle) {
 		double offset = 0.0, base = angle;
 		while(true) {
 			if(base - 90.0 >= 0.0) {
@@ -81,9 +81,9 @@ public class Tank {
 		return ret;
 	}
 	public void render(Graphics2D g2d) {
-		g2d.drawOval(xLocation + 3, yLocation + 3, 14, 14);
+		g2d.drawOval((int)xLocation + 3, (int)yLocation + 3, 14, 14);
 		double centerX = (double) xLocation + 10.0, centerY = (double) yLocation + 10.0;	
-		double[] ret = calculateOffset(getTankRotation());
+		double[] ret = calculateRotationQuadrant(getTankRotation());
 		double base = ret[0];
 		int offset = (int) ret[1];
 		double adj, opp, refX = 0.0, refY = 0.0;
