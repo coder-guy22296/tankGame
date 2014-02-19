@@ -79,11 +79,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	}
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		for(Tank tank : this.tanks) {
-			if(tank instanceof UserTank) {
-				((UserTank) tank).handleMouseClick(arg0);
-			}
-		}
+		
 	}
 	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -113,7 +109,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		for(Tank tank : this.tanks) {
+			if(tank instanceof UserTank) {
+				((UserTank) tank).handleMouseClick(arg0);
+			}
+		}
 
 	}
 
