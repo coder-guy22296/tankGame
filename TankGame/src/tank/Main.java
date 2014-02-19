@@ -5,13 +5,13 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-public class Main extends JFrame implements KeyListener, MouseListener, MouseMotionListener, Runnable {
+public class Main extends JFrame implements KeyListener,  Runnable {
 	Board board = new Board();
 	Main() {
 		board.addTank(new UserTank(0, 0, board));
 		this.addKeyListener(this);
-		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
+		board.addMouseListener(board);
+		board.addMouseMotionListener(board);
 		add(board);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -19,6 +19,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		setSize(500, 500);
 		setTitle("Tank Game");
 		setVisible(true);
+		
 	}
 	public void update() {
 		board.update();
@@ -58,40 +59,6 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		for(Tank tank : board.tanks) {
-			if(tank instanceof UserTank) {
-				((UserTank) tank).handleMouseClick(arg0);
-			}
-		}
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		for(Tank tank : board.tanks) {
@@ -117,19 +84,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
-	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		for(Tank tank : board.tanks) {
-			if(tank instanceof UserTank) {
-				((UserTank) tank).handleMouseMove(arg0);
-			}
-		}
-	}
+	
+	
 	
 }

@@ -1,11 +1,14 @@
 package tank;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.*;
-import java.util.ArrayList;
 
-public class Board extends JPanel {
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.*;
+
+public class Board extends JPanel implements MouseListener, MouseMotionListener {
 	public ArrayList<Tank> tanks = new ArrayList<Tank>();
 	Random rng = new Random();
 	double FPS = 0.0;
@@ -74,5 +77,51 @@ public class Board extends JPanel {
 		}
 		g2d.drawString(Double.toString(FPS), 455, 20);
 	}
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		for(Tank tank : this.tanks) {
+			if(tank instanceof UserTank) {
+				((UserTank) tank).handleMouseClick(arg0);
+			}
+		}
+	}
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		for(Tank tank : this.tanks) {
+			if(tank instanceof UserTank) {
+				((UserTank) tank).handleMouseMove(arg0);
+			}
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

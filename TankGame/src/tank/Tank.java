@@ -88,8 +88,8 @@ public class Tank {
 		g2d.setRenderingHint(
 		        RenderingHints.KEY_ANTIALIASING,
 		        RenderingHints.VALUE_ANTIALIAS_ON);
-		g2d.drawOval((int)xLocation + 3, (int)yLocation + 3, 14, 14);
-		double centerX = (double) xLocation + 10.0, centerY = (double) yLocation + 10.0;	
+		g2d.drawOval((int)xLocation - 7, (int)yLocation - 7, 14, 14);
+		double centerX = (double) xLocation , centerY = (double) yLocation ;	
 		double[] ret = calculateRotationQuadrant(getTankRotation());
 		double base = ret[0];
 		int offset = (int) ret[1];
