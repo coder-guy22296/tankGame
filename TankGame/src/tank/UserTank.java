@@ -62,7 +62,7 @@ public class UserTank extends Tank {
 		moveTank(xSpeed, ySpeed);
 	}
 	public void moveTank(double fXSpeed, double fYSpeed) {
-		Rectangle temp = new Rectangle((int)xLocation + (int)fXSpeed, (int)yLocation + (int)fYSpeed, 20, 20);
+		Rectangle temp = new Rectangle((int)xLocation - 10 + (int)fXSpeed, (int)yLocation + 10 + (int)fYSpeed, 20, 20);
 		boolean intersectRect = false;
 		boolean intersectX = ! ((xLocation + fXSpeed) >= 0 && (xLocation + fXSpeed) <= board.getWidth());
 		boolean intersectY = ! ((yLocation + fYSpeed) >= 0 && (yLocation + fYSpeed) <= board.getHeight());
@@ -157,8 +157,10 @@ public class UserTank extends Tank {
 	}
 	public void handleMouseClick(MouseEvent e) {
 		cannonFiring = true;
+		System.out.println("---");
 		System.out.println(e.getX());
 		System.out.println(e.getY());
+		System.out.println("---");
 	}
 	public static int getMouseX(){
 		return pointerX;
