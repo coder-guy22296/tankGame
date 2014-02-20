@@ -76,7 +76,8 @@ public class UserTank extends Tank {
 			yLocation += fYSpeed;
 			rect = temp;
 		} else {
-			setTankLocation((int)getTankX() - (int)xSpeed, (int)getTankY() - (int)ySpeed);
+			xSpeed = -xSpeed;
+			ySpeed = -ySpeed;
 		}
 		if(intersectX) {
 			xSpeed = -xSpeed;
