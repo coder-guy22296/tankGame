@@ -8,7 +8,7 @@ import java.awt.*;
 public class Main extends JFrame implements KeyListener,  Runnable {
 	Board board = new Board();
 	Main() {
-		board.addTank(new UserTank(0, 0, board));
+		board.addTank(new UserTank(7, 7, board));
 		this.addKeyListener(this);
 		board.addMouseListener(board);
 		board.addMouseMotionListener(board);
@@ -37,9 +37,12 @@ public class Main extends JFrame implements KeyListener,  Runnable {
 			update();
 			repaint();
 			wait = (waitTime - (System.currentTimeMillis() - start));
+			start = System.currentTimeMillis();
 			try{
 				if(fps != -1) {
-					Thread.sleep(wait);
+					while((System.currentTimeMillis() - start) < wait) {
+						//System.out.println("Wasting time");
+					}
 				} else {
 					System.out.println("Actual FPS: " + (1000.0 / (double) (System.currentTimeMillis() - start)));
 				}

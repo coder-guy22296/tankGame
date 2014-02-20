@@ -1,7 +1,7 @@
 package tank;
 
-public class Missile extends Wepon{
-	private int damageDealtByWepon = 60;
+public class Missile extends Weapon{
+	private int damageDealt = 60;
 
 	@Override
 	void reload() {
@@ -10,7 +10,13 @@ public class Missile extends Wepon{
 	}
 
 	@Override
-	void fireWepon() {
+	void fire() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void destroy() {
 		// TODO Auto-generated method stub
 		
 	}

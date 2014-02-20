@@ -1,10 +1,11 @@
 package tank;
 
-abstract class Wepon {
+abstract class Weapon {
 	int ammo = 0;
 	int damageDealt = 0; 
 	 		
 	abstract void reload();
-	abstract void fireWepon();
+	abstract void fire();
+	abstract void destroy();
 
 }
