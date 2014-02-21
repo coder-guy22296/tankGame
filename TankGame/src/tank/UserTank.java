@@ -7,92 +7,13 @@ import java.awt.event.*;
 public class UserTank extends Tank {
 	int[] bindings = {KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_SPACE};
 	double xSpeed = 0, ySpeed = 0, MaxXSpeed = 2, MaxYSpeed =2;
-	double acceleration = .1;
-	double friction = .98;
 	static int pointerX = 0;
 	static int pointerY = 0;
-	boolean aUp = false;
-	boolean aDown = false;
-	boolean aLeft = false;
-	boolean aRight = false;
-	boolean aSpace = false;
-	
-	
-	
-	UserTank(int x, int y, Board board){
-		super(x, y, board);
-	}
-	public void update() {
-		
-		
-		if(aLeft){
-			xSpeed -=acceleration;
-			if(xSpeed < -MaxXSpeed) {
-				xSpeed = -MaxXSpeed;
-			}
-		} 
-		if(aRight) {
-			xSpeed +=acceleration;
-			if(xSpeed > MaxXSpeed) {
-				xSpeed = MaxXSpeed;
-			}
-		} 
-		if(aUp) {
-			ySpeed -=acceleration;
-			if(ySpeed < -MaxYSpeed) {
-				ySpeed = -MaxYSpeed;
-			}
-		} 
-		if(aDown) {
-			ySpeed +=acceleration;
-			if(ySpeed > MaxYSpeed) {
-				ySpeed = MaxYSpeed;
-			}
-		} 
-		if(!(aLeft || aRight || aDown || aUp)){
-			ySpeed *= friction;
-			xSpeed *= friction;
-		}
-		if(aSpace){
-			ApplyBrakes();
-		}
-		else if(!aSpace){
-			disengageBrakes();
-		}
-		moveTank(xSpeed, ySpeed);
-	}
-	public void moveTank(double fXSpeed, double fYSpeed) {
-		Rectangle temp = new Rectangle((int)xLocation - 10 + (int)fXSpeed, (int)yLocation + 10 + (int)fYSpeed, 20, 20);
-		boolean intersectRect = false;
-		boolean intersectX = ! ((xLocation + fXSpeed) >= 0 && (xLocation + fXSpeed) <= board.getWidth());
-		boolean intersectY = ! ((yLocation + fYSpeed) >= 0 && (yLocation + fYSpeed) <= board.getHeight());
-		for(int i = 0; i < board.rects.length; i++) {
-			if(temp.intersects(board.rects[i])) {
-				intersectRect = true;
-			}
-		}
-		if(!intersectRect) {
-			xLocation += fXSpeed;
-			yLocation += fYSpeed;
-			rect = temp;
-		} else {
-			xSpeed = -xSpeed;
-			ySpeed = -ySpeed;
-		}
-		if(intersectX) {
-			xSpeed = -xSpeed;
-		} else if(intersectY) {
-			ySpeed = -ySpeed;
-		}
-	}
-	public void ApplyBrakes(){
-		friction = .80;
-	}
-	public void disengageBrakes(){
-		friction = .98;
-	}
 	public void setBindings(int[] b) {
 		bindings = b;
+	}
+	UserTank(int x, int y, Board board){
+		super(x, y, board);
 	}
 	public void handleKeyPress(KeyEvent arg0) {
 		int key = arg0.getKeyCode();
@@ -105,7 +26,7 @@ public class UserTank extends Tank {
 		} else if(key == bindings[3]) {
 			aDown = true;
 		} else if(key == bindings[4]) {
-			aSpace = true;
+			applyBrakes = true;
 		} 
 		
 	}
@@ -120,7 +41,7 @@ public class UserTank extends Tank {
 		} else if(key == bindings[3]) {
 			aDown = false;
 		} else if(key == bindings[4]) {
-			aSpace = false;
+			applyBrakes = false;
 		} 
 	}
 	public void handleMouseMove(MouseEvent e) {

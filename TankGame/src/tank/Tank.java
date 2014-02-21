@@ -11,15 +11,21 @@ public class Tank {
 	protected double yLocation = 0;
 	protected int health = 100; // hp 
 	protected boolean cannonFiring = false;
+	protected boolean aUp = false;
+	protected boolean aDown = false;
+	protected boolean aLeft = false;
+	protected boolean aRight = false;
+	protected boolean applyBrakes = false;
+	protected double acceleration = .1;
+	protected double friction = .98;
+	protected double xSpeed = 0, ySpeed = 0, MaxXSpeed = 2, MaxYSpeed =2;
 	Rectangle rect = new Rectangle((int)xLocation, (int)yLocation, 20, 20);
 	Board board;
+	
 	Tank(int x, int y, Board board) {
 		xLocation = x;
 		yLocation = y;
 		this.board = board;
-	}
-	public void update() {
-		
 	}
 	public void setTankLocation(int x, int y){
 		xLocation = x;
@@ -40,6 +46,30 @@ public class Tank {
 			xLocation += offX;
 			yLocation += offY;
 			rect = temp;
+		}
+	}
+	public void moveTank(double fXSpeed, double fYSpeed) {
+		Rectangle temp = new Rectangle((int)xLocation - 10 + (int)fXSpeed, (int)yLocation + 10 + (int)fYSpeed, 20, 20);
+		boolean intersectRect = false;
+		boolean intersectX = ! ((xLocation + fXSpeed) >= 0 && (xLocation + fXSpeed) <= board.getWidth());
+		boolean intersectY = ! ((yLocation + fYSpeed) >= 0 && (yLocation + fYSpeed) <= board.getHeight());
+		for(int i = 0; i < board.rects.length; i++) {
+			if(temp.intersects(board.rects[i])) {
+				intersectRect = true;
+			}
+		}
+		if(!intersectRect) {
+			xLocation += fXSpeed;
+			yLocation += fYSpeed;
+			rect = temp;
+		} else {
+			xSpeed = -xSpeed;
+			ySpeed = -ySpeed;
+		}
+		if(intersectX) {
+			xSpeed = -xSpeed;
+		} else if(intersectY) {
+			ySpeed = -ySpeed;
 		}
 	}
 	public void setTankRotation(double d){
@@ -84,6 +114,51 @@ public class Tank {
 		double[] ret = {base, offset};
 		return ret;
 	}
+	public void update() {
+		if(aLeft){
+			xSpeed -=acceleration;
+			if(xSpeed < -MaxXSpeed) {
+				xSpeed = -MaxXSpeed;
+			}
+		} 
+		if(aRight) {
+			xSpeed +=acceleration;
+			if(xSpeed > MaxXSpeed) {
+				xSpeed = MaxXSpeed;
+			}
+		} 
+		if(aUp) {
+			ySpeed -=acceleration;
+			if(ySpeed < -MaxYSpeed) {
+				ySpeed = -MaxYSpeed;
+			}
+		} 
+		if(aDown) {
+			ySpeed +=acceleration;
+			if(ySpeed > MaxYSpeed) {
+				ySpeed = MaxYSpeed;
+			}
+		} 
+		if(!(aLeft || aRight || aDown || aUp)){
+			ySpeed *= friction;
+			xSpeed *= friction;
+		}
+		if(applyBrakes){
+			ApplyBrakes();
+		}
+		else if(!applyBrakes){
+			disengageBrakes();
+		}
+		moveTank(xSpeed, ySpeed);
+	}
+	
+	public void ApplyBrakes(){
+		friction = .80;
+	}
+	public void disengageBrakes(){
+		friction = .98;
+	}
+	
 	public void render(Graphics2D g2d) {
 		g2d.setRenderingHint(
 		        RenderingHints.KEY_ANTIALIASING,
