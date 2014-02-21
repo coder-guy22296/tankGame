@@ -1,5 +1,6 @@
 package tank;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -18,8 +19,8 @@ public class Tank {
 	protected boolean applyBrakes = false;
 	protected double acceleration = .1;
 	protected double friction = .98;
-	protected double xSpeed = 0, ySpeed = 0, MaxXSpeed = 2, MaxYSpeed =2;
-	Rectangle rect = new Rectangle((int)xLocation, (int)yLocation, 20, 20);
+	protected double xSpeed = 0, ySpeed = 0, MaxXSpeed = 3, MaxYSpeed =3;
+	Rectangle hitBox = new Rectangle((int)xLocation-6, (int)yLocation-6, 12, 12);
 	Board board;
 	
 	Tank(int x, int y, Board board) {
@@ -30,7 +31,7 @@ public class Tank {
 	public void setTankLocation(int x, int y){
 		xLocation = x;
 		yLocation = y;
-		rect = new Rectangle((int)xLocation, (int)yLocation, 20, 20);
+		hitBox = new Rectangle((int)xLocation, (int)yLocation, 20, 20);
 	}
 	public void moveTank(int offX, int offY) {
 		Rectangle temp = new Rectangle((int)xLocation + offX, (int)yLocation + offY, 20, 20);
@@ -45,33 +46,10 @@ public class Tank {
 		if(!intersects && !intersectY && !intersectX) {
 			xLocation += offX;
 			yLocation += offY;
-			rect = temp;
+			hitBox = temp;
 		}
 	}
-	public void moveTank(double fXSpeed, double fYSpeed) {
-		Rectangle temp = new Rectangle((int)xLocation - 10 + (int)fXSpeed, (int)yLocation + 10 + (int)fYSpeed, 20, 20);
-		boolean intersectRect = false;
-		boolean intersectX = ! ((xLocation + fXSpeed) >= 0 && (xLocation + fXSpeed) <= board.getWidth());
-		boolean intersectY = ! ((yLocation + fYSpeed) >= 0 && (yLocation + fYSpeed) <= board.getHeight());
-		for(int i = 0; i < board.rects.length; i++) {
-			if(temp.intersects(board.rects[i])) {
-				intersectRect = true;
-			}
-		}
-		if(!intersectRect) {
-			xLocation += fXSpeed;
-			yLocation += fYSpeed;
-			rect = temp;
-		} else {
-			xSpeed = -xSpeed;
-			ySpeed = -ySpeed;
-		}
-		if(intersectX) {
-			xSpeed = -xSpeed;
-		} else if(intersectY) {
-			ySpeed = -ySpeed;
-		}
-	}
+	
 	public void setTankRotation(double d){
 		if(d >= 0.0 && d < 360.0) {
 			tankRotation = d;
@@ -114,7 +92,7 @@ public class Tank {
 		double[] ret = {base, offset};
 		return ret;
 	}
-	public void update() {
+	public void logicUpdate() {
 		if(aLeft){
 			xSpeed -=acceleration;
 			if(xSpeed < -MaxXSpeed) {
@@ -150,6 +128,45 @@ public class Tank {
 			disengageBrakes();
 		}
 		moveTank(xSpeed, ySpeed);
+	}
+	
+	public void moveTank(double fXSpeed, double fYSpeed) {
+		boolean intersectRect = false;
+		boolean offLeft   = (xLocation + fXSpeed) <= 0;
+		boolean offRight  = (xLocation + fXSpeed) >= board.getWidth();
+		boolean offTop    = (yLocation + fYSpeed) <= 0;
+		boolean offBottom = (yLocation + fYSpeed) >= board.getHeight();
+		
+		for(int i = 0; i < board.rects.length; i++) {
+			if(hitBox.intersects(board.rects[i])) {
+				intersectRect = true;
+			}
+		}
+		if(intersectRect == true){
+			xSpeed = -xSpeed;
+			ySpeed = -ySpeed;
+		}
+		
+		if(offLeft) {
+			xSpeed = -xSpeed;
+			xLocation = 0;
+		} 
+		if(offRight) {
+			xSpeed = -xSpeed;
+			xLocation = board.getWidth();
+		} 
+		if(offBottom) {
+			ySpeed = -ySpeed;
+			yLocation = board.getHeight();
+		}
+		if(offTop) {
+			ySpeed = -ySpeed;
+			yLocation = 0;
+		}
+		xLocation += xSpeed;
+		yLocation += ySpeed;
+		hitBox.x = (int) xLocation - 6;
+		hitBox.y = (int) yLocation - 6;
 	}
 	
 	public void ApplyBrakes(){
@@ -193,6 +210,7 @@ public class Tank {
 			refY = centerY - opp;
 			break;
 		}
+		
 		g2d.drawLine((int) Math.round(centerX), (int) Math.round(centerY), (int) Math.round(refX), (int) Math.round(refY));
 		if(cannonFiring){
 			g2d.setColor(Color.RED);
@@ -200,5 +218,7 @@ public class Tank {
 			cannonFiring = false;
 			g2d.setColor(Color.BLACK);
 		}
+		g2d.setStroke(new BasicStroke(2));
+		g2d.draw(hitBox);
 	}
 }

@@ -58,7 +58,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	}
 	public void update() {
 		for(Tank tank : tanks) {
-			tank.update();
+			tank.logicUpdate();
 		}
 	}
 	public void addTank(Tank t) {
