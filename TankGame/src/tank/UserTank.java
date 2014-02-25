@@ -9,6 +9,10 @@ public class UserTank extends Tank {
 	double xSpeed = 0, ySpeed = 0, MaxXSpeed = 2, MaxYSpeed =2;
 	static int pointerX = 0;
 	static int pointerY = 0;
+	double centerX = 0;
+	double centerY = 0;
+	double distX = 0;
+	double distY = 0;
 	public void setBindings(int[] b) {
 		bindings = b;
 	}
@@ -47,9 +51,11 @@ public class UserTank extends Tank {
 	public void handleMouseMove(MouseEvent e) {
 		pointerX = e.getX();
 		pointerY = e.getY();
-		double centerX = (double) xLocation, centerY = (double) yLocation;
-		double distX = centerX - (double) pointerX;
-		double distY = centerY - (double) pointerY;
+		updateUserTankLogic();
+/*		centerX = (double) xLocation;
+		centerY = (double) yLocation;
+		distX = centerX - (double) pointerX;
+		distY = centerY - (double) pointerY;
 		int offset;
 		boolean invert = false;
 		if(distX >= 0.0) {
@@ -75,7 +81,7 @@ public class UserTank extends Tank {
 		}
 		double angle = offset * 90.0 + base;
 		setTankRotation(angle);
-	}
+*/	}
 	public void handleMouseClick(MouseEvent e) {
 		cannonFiring = true;
 		System.out.println("---");
@@ -89,5 +95,6 @@ public class UserTank extends Tank {
 	public static int getMouseY(){
 		return pointerY;
 	}
+	
 	
 }

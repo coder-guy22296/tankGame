@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
 
 public class Tank {
 	protected double tankRotation = 0.0;  // in degrees -- long story short, trig calculations are easier when this is a double
@@ -22,6 +23,11 @@ public class Tank {
 	protected double xSpeed = 0, ySpeed = 0, MaxXSpeed = 3, MaxYSpeed =3;
 	Rectangle hitBox = new Rectangle((int)xLocation-6, (int)yLocation-6, 12, 12);
 	Board board;
+	
+	double centerX = 0;
+	double centerY = 0;
+	double distX = 0;
+	double distY = 0;
 	
 	Tank(int x, int y, Board board) {
 		xLocation = x;
@@ -127,7 +133,40 @@ public class Tank {
 		else if(!applyBrakes){
 			disengageBrakes();
 		}
+		updateUserTankLogic();
 		moveTank(xSpeed, ySpeed);
+	}
+	
+	public void updateUserTankLogic(){
+		centerX = (double) xLocation;
+		centerY = (double) yLocation;
+		distX = centerX - (double) UserTank.pointerX;
+		distY = centerY - (double) UserTank.pointerY;
+		int offset;
+		boolean invert = false;
+		if(distX >= 0.0) {
+			if(distY >= 0.0) {
+				offset = 3;
+				invert = true;
+			} else {
+				offset = 2;
+			}
+		} else {
+			if(distY >= 0.0) {
+				offset = 0;
+			} else {
+				offset = 1;
+				invert = true;
+			}
+		}
+		distX = Math.abs(distX);
+		distY = Math.abs(distY);
+		double base = Math.toDegrees(Math.atan(distX / distY));
+		if(invert) {
+			base = 90.0 - base;
+		}
+		double angle = offset * 90.0 + base;
+		setTankRotation(angle);
 	}
 	
 	public void moveTank(double fXSpeed, double fYSpeed) {
