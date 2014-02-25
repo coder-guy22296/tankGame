@@ -1,6 +1,6 @@
 package tank;
 
-abstract class Weapon {
+abstract class Projectile {
 	int ammo = 0;
 	int damageDealt = 0; 
 	 		

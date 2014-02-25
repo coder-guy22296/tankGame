@@ -1,6 +1,6 @@
 package tank;
 
-public class Missile extends Weapon{
+public class Missile extends Projectile{
 	private int damageDealt = 60;
 
 	@Override

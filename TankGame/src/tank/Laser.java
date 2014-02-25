@@ -1,6 +1,6 @@
 package tank;
 
-public class Laser extends Weapon {
+public class Laser extends Projectile {
 	
 	private int damageDealt = 0;
 	private int storedEnergy = 0;// 1k max
