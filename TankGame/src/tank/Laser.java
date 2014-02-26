@@ -8,14 +8,12 @@ public class Laser extends Projectile {
 	private double damagePerPercent = 2;
 	private double totalDammage = 0;// damagePerPercent*beamIntensity
 	
-	@Override
 	void reload() {
 		// TODO Auto-generated method stub
 		
 		storedEnergy = 1000;
 		beamIntensity = 100;
 	}
-	@Override
 	void fire() {
 		totalDammage = damagePerPercent*beamIntensity;
 		storedEnergy -= 125;
@@ -24,6 +22,11 @@ public class Laser extends Projectile {
 	}
 	@Override
 	void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	void update(Board b) {
 		// TODO Auto-generated method stub
 		
 	}
