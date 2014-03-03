@@ -19,8 +19,8 @@ public class Tank {
 	protected boolean aRight = false;
 	protected boolean applyBrakes = false;
 	protected double acceleration = .1;
-	protected double friction = .98;
-	protected double xSpeed = 0, ySpeed = 0, MaxXSpeed = 3, MaxYSpeed =3;
+	protected double friction = 1;
+	protected double xSpeed = 0, ySpeed = 0, MaxXSpeed = 6, MaxYSpeed =6;
 	Rectangle hitBox = new Rectangle((int)xLocation-6, (int)yLocation-6, 12, 12);
 	Board board;
 	
@@ -123,10 +123,10 @@ public class Tank {
 				ySpeed = MaxYSpeed;
 			}
 		} 
-		if(!(aLeft || aRight || aDown || aUp)){
-			ySpeed *= friction;
-			xSpeed *= friction;
-		}
+//		if(!(aLeft || aRight || aDown || aUp)){
+//			ySpeed *= friction;
+//			xSpeed *= friction;
+//		}
 		if(applyBrakes){
 			ApplyBrakes();
 		}
@@ -178,12 +178,61 @@ public class Tank {
 		
 		for(int i = 0; i < board.rects.length; i++) {
 			if(hitBox.intersects(board.rects[i])) {
-				intersectRect = true;
+				double xLeft = xLocation - hitBox.width/2;
+				double xRight = xLocation + hitBox.width/2;
+				double ybottom = yLocation + hitBox.width/2;
+				double ytop = yLocation - hitBox.width/2;
+				double rectLeft = board.rects[i].x;
+				double rectRight = board.rects[i].x + board.rects[i].width;
+				double rectBottom = board.rects[i].y + board.rects[i].height;
+				double rectTop = board.rects[i].y;
+				if(ySpeed > 0 && xSpeed > 0){
+					double bValue = ybottom - (ySpeed/xSpeed)*xRight;
+					double yIntersect = (ySpeed/xSpeed)*rectLeft + bValue;
+					if(yIntersect < rectTop){
+						ySpeed = -ySpeed;
+					}else if(yIntersect > rectTop){
+						xSpeed = -xSpeed;
+					}
+					
+				}
+				else if(ySpeed < 0 && xSpeed > 0){
+					double bValue = ytop - (ySpeed/xSpeed)*xRight;
+					double yIntersect = (ySpeed/xSpeed)*rectLeft + bValue;
+					if(yIntersect > rectBottom){
+						ySpeed = -ySpeed;
+					}else if(yIntersect < rectBottom){
+						xSpeed = -xSpeed;
+					}
+					
+				}
+				else if(ySpeed > 0 && xSpeed < 0){
+					double bValue = ybottom - (ySpeed/xSpeed)*xLeft;
+					double yIntersect = (ySpeed/xSpeed)*rectRight + bValue;
+					if(yIntersect > rectTop){
+						xSpeed = -xSpeed;
+					}else if(yIntersect < rectTop){
+						ySpeed = -ySpeed;
+					}
+					
+				}
+				else if(ySpeed < 0 && xSpeed < 0){
+					double bValue = ytop - (ySpeed/xSpeed)*xLeft;
+					double yIntersect = (ySpeed/xSpeed)*rectRight + bValue;
+					if(yIntersect > rectBottom){
+						ySpeed = -ySpeed;
+					}else if(yIntersect < rectBottom){
+						xSpeed = -xSpeed;
+					}
+					
+				}
+				
+				
+				
 			}
 		}
 		if(intersectRect == true){
-			xSpeed = -xSpeed;
-			ySpeed = -ySpeed;
+			
 		}
 		
 		if(offLeft) {

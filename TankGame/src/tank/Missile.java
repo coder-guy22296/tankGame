@@ -1,15 +1,15 @@
 package tank;
 
-public class Missile extends Projectile{
+public class Missile {
 	private int damageDealt = 60;
 
-	@Override
+	
 	void destroy() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	
 	void update(Board b) {
 		// TODO Auto-generated method stub
 		

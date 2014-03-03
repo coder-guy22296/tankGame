@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 public class UserTank extends Tank {
 	int[] bindings = {KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_SPACE};
-	double xSpeed = 0, ySpeed = 0, MaxXSpeed = 2, MaxYSpeed =2;
+	double xSpeed = 0, ySpeed = 0, MaxXSpeed = 6, MaxYSpeed =6;
 	static int pointerX = 0;
 	static int pointerY = 0;
 	double centerX = 0;

@@ -1,6 +1,6 @@
 package tank;
 
-public class Laser extends Projectile {
+public class Laser {
 	
 	private int damageDealt = 0;
 	private int storedEnergy = 0;// 1k max
@@ -20,14 +20,5 @@ public class Laser extends Projectile {
 		beamIntensity = storedEnergy/10;
 		
 	}
-	@Override
-	void destroy() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	void update(Board b) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
