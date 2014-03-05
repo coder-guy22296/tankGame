@@ -123,10 +123,10 @@ public class Tank {
 				ySpeed = MaxYSpeed;
 			}
 		} 
-//		if(!(aLeft || aRight || aDown || aUp)){
-//			ySpeed *= friction;
-//			xSpeed *= friction;
-//		}
+		if(!(aLeft || aRight || aDown || aUp)){
+			ySpeed *= friction;
+			xSpeed *= friction;
+		}
 		if(applyBrakes){
 			ApplyBrakes();
 		}
